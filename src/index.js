@@ -1,11 +1,11 @@
 const express = require('express');
 const route = require('./routes/route.js')
-const bodyParser = require('bodyParser')
+// const bodyParser = require('bodyParser')
 const mongoose = require('mongoose')
 const app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+// app.use(bodyParser.urlencoded({extended: true}));
 
 mongoose.set('strictQuery',true);
 mongoose.connect("mongodb+srv://divyamala_:Dt25042000knp@divyamala.0cofsch.mongodb.net/divyaGrv", {
