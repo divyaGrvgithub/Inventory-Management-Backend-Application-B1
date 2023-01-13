@@ -12,6 +12,18 @@ const createGrn = async (req, res) => {
         res.status(500).send({ Status: false, message: error.message })
     }
 }
+    
+// <=========================Get Api===============================>
+
+const getGrn = async (req, res) =>{
+    try {
+        const grnId = req.params.grnId
+        const grnDetails = await grnModel.find({ _id: grnId, deleted: false })
+        res.status(200).send({ status: true, message: grnDetails })
+    } catch (err) {
+        res.status(500).send({ status: false, message: error.message });
+    }
+}
 
 //<======================== Put APi==========================>
 
@@ -36,17 +48,6 @@ const updateItem = async (req, res) => {
     }
 }
 
-// <=========================Get Api===============================>
-
-const getGrn = async (req, res) => {
-    try {
-        const grnId = req.param.grnId;
-        const grnDetails = await grnModel.find({ _id: grnId, deleted: false }), populate("grnLineItemsId")
-        res.status(200).send({ status: true, message: grnDetails })
-    } catch (error) {
-        res.status(500).send({ status: false, message: error.message })
-    }
-}
 
 //<========================Delete Api===============================>
 
@@ -54,7 +55,7 @@ const deleteGrn = async (req, res) => {
     try {
         const grnId = req.params.grnId
         const data = await grnModel.findOneAndUpdate({ _id: grnId, deleted: false }, { $set: { deleted: true } })
-        res.status(200).send({ Status: "Cancelled", message: data, "deleted successfully"})
+        res.status(200).send({ Status: "Cancelled", message: "deleted successfully"})
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
     }

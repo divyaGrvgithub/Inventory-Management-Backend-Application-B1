@@ -3,13 +3,25 @@ const ItemModel = require('../models/itemModel')
 
 //<==========================================Post Api===========================================>
 
-const orderCreate = async(req,res)=>{
-    try{
+const orderCreate = async (req, res) => {
+    try {
         const data = req.body;
         const createOrder = await orderModel.create(data)
-        res.status(201).send({Status: "Generated", message: createOrder})
-    }catch(error){
-        res.status(500).send({status:false, message:error.message})
+        res.status(201).send({ Status: "Generated", message: createOrder })
+    } catch (error) {
+        res.status(500).send({ status: false, message: error.message })
+    }
+}
+
+//<=======================================  get API ===================================================>
+
+const getOrder = async (req, res) => {
+    try {
+        const orderId = req.params.orderId
+        const orderDetails = await orderModel.find({ _id: orderId, deleted: false })
+        res.status(200).send({ status: true, message: orderDetails })
+    } catch (err) {
+        res.status(500).send({ status: false, message: err.message });
     }
 }
 
@@ -32,22 +44,9 @@ const orderUpdate = async (req, res) => {
     }
 }
 
-
-//<=======================================  get API ===================================================>
-
-const getOrder = async (req, res) => {
-    try {
-        const orderId = req.params.orderId
-        const orderDetails = await orderModel.find({ _id: orderId, deleted: false }).populate("orderLineItemsId")
-        res.status(200).send({ status: true, message: orderDetails })
-    } catch (err) {
-        res.status(500).send({ status: false, message: err.message });
-    }
-}
-
 //<========================================= delete API ==================================================>
 
-const deleteOrder = async (req, res) =>{
+const deleteOrder = async (req, res) => {
     try {
         const orderId = req.params.orderId
 
@@ -59,7 +58,7 @@ const deleteOrder = async (req, res) =>{
 }
 
 
-module.exports.orderCreate=orderCreate;                                          
-module.exports.orderUpdate=orderUpdate;
-module.exports.deleteOrder=deleteOrder;
-module.exports.getOrder=getOrder;
+module.exports.orderCreate = orderCreate;
+module.exports.orderUpdate = orderUpdate;
+module.exports.deleteOrder = deleteOrder;
+module.exports.getOrder = getOrder;
